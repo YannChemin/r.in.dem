@@ -1,0 +1,64 @@
+<h2>DESCRIPTION</h2>
+
+<em>r.in.dem</em> imports a DEM covering the current region (or an
+explicit <b>area</b>) from the <b>Copernicus GLO-30/GLO-90</b> global
+DEM, published as Cloud-Optimized GeoTIFFs on the public AWS Open Data
+registry. Unlike most global DEM sources (SRTM via OpenTopography,
+etc.) this needs <b>no account, no API key, and no signed S3
+request</b> -- the tiles are plain, publicly readable HTTPS objects --
+so any study area on Earth can be given a real DEM with a single
+command, which <a href="r.hydro.hbv.basins.html">r.hydro.hbv.basins</a>
+(and anything else needing elevation) can then delineate on.
+
+<p>
+Coverage is seamless over all land, including areas SRTM lacks (above
+60N or below 56S) -- ocean-only 1-degree tiles simply don't exist in
+the bucket and are skipped with a warning, not an error, as long as at
+least one requested tile has land in it.
+
+<h2>NOTES</h2>
+
+<p>
+The module determines every 1-degree tile overlapping the requested
+area, checks each one actually exists (HEAD request -- ocean tiles
+don't), mosaics the existing ones into a GDAL VRT
+(<tt>/vsicurl/</tt>, no download of the whole tile needed up front --
+<a href="r.import.html">r.import</a> only reads the pixels it
+actually needs), and imports/reprojects the result into the current
+project.
+
+<p>
+By default the import matches the current region's extent and
+resolution (<b>extent=region</b>/<b>resolution=region</b> in
+<em>r.import</em> terms) -- GDAL can serve this from coarser
+overviews, so it stays fast regardless of how large the region is.
+Pass <b>-n</b> to import at the DEM's full native resolution instead;
+this is dramatically slower over more than a small area, since every
+output pixel then needs its own network read (a 3x2 degree area at
+GLO-30's native ~30m/1-arcsec resolution took around 8 minutes in
+testing, for reference) -- only use it when the extra detail is
+actually needed at the scale being worked at.
+
+<h2>EXAMPLE</h2>
+
+<div class="code"><pre>
+g.region n=34 s=31 e=49 w=47 res=0:06
+r.in.dem output=karkheh_dem source=copernicus_glo30
+
+r.hydro.hbv.basins elevation=karkheh_dem outlets=outlets id_column=id \
+  threshold=1000 snap_radius=30 parameters_template=bounds16.csv \
+  basins=basins basins_vector=basins_v
+</pre></div>
+
+<h2>SEE ALSO</h2>
+
+<em>
+<a href="r.hydro.hbv.basins.html">r.hydro.hbv.basins</a>,
+<a href="r.hydro.hbv.html">r.hydro.hbv</a>,
+<a href="r.import.html">r.import</a>,
+<a href="t.in.era5.html">t.in.era5</a>
+</em>
+
+<h2>AUTHOR</h2>
+
+Yann Chemin
