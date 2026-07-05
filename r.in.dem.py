@@ -11,9 +11,8 @@
 #               anything else needing a DEM) can be pointed at any
 #               study area on Earth without the user having to already
 #               have local elevation data.
-# COPYRIGHT:    (C) 2026 by Yann Chemin, and the GRASS Development Team
-#               This program is free software under the GNU General
-#               Public License (>=v2).
+# COPYRIGHT:    (C) 2026 by Yann Chemin
+#               Released into the public domain -- see LICENSE (Unlicense).
 #
 ############################################################################
 
