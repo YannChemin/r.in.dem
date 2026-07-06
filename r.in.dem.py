@@ -241,6 +241,8 @@ def main():
             overwrite=gs.overwrite(),
         )
 
+    gs.run_command("r.colors", map=options["output"], color="elevation")
+
     gs.message(
         "Imported <%s> from %d %s tile(s)"
         % (options["output"], len(urls), source["description"])

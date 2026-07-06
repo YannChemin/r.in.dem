@@ -45,6 +45,8 @@ without first having to source and import a DEM by hand.
    `r.import`, trimmed to the region's extent. Only worth it when you
    actually need that much detail — it re-introduces the same
    per-pixel network cost the default path avoids.
+6. Applies `r.colors color=elevation` to the imported map, so it's
+   ready to display without an extra step.
 
 ## Options
 
@@ -88,3 +90,4 @@ Public domain — see [LICENSE](LICENSE) (Unlicense).
 - [r.hydro.hbv](https://github.com/YannChemin/HBV) — the HBV
   hydrological model this module was built to feed a DEM into
 - [r.import](https://grass.osgeo.org/grass-stable/manuals/r.import.html)
+- [r.colors](https://grass.osgeo.org/grass-stable/manuals/r.colors.html)

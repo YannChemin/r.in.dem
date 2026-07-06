@@ -39,6 +39,11 @@ GLO-30's native ~30m/1-arcsec resolution took around 8 minutes in
 testing, for reference) -- only use it when the extra detail is
 actually needed at the scale being worked at.
 
+<p>
+After import, <a href="r.colors.html">r.colors</a>
+<tt>color=elevation</tt> is applied to the output automatically, so
+the result is ready to display without an extra step.
+
 <h2>EXAMPLE</h2>
 
 <div class="code"><pre>
@@ -56,6 +61,7 @@ r.hydro.hbv.basins elevation=karkheh_dem outlets=outlets id_column=id \
 <a href="r.hydro.hbv.basins.html">r.hydro.hbv.basins</a>,
 <a href="r.hydro.hbv.html">r.hydro.hbv</a>,
 <a href="r.import.html">r.import</a>,
+<a href="r.colors.html">r.colors</a>,
 <a href="t.in.era5.html">t.in.era5</a>
 </em>
 
